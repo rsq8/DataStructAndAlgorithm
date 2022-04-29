@@ -86,6 +86,9 @@ public class Main {
 		test.insert(5, 5);
 		test.insert(6, 6);
 		test.insert(7, 7);
+		test.insert(8, 8);
+		test.insert(9, 9);
+		test.insert(10, 10);
 
 		TreeNode start = test.getRoot();
 		//com.rsq8.data.structures.and.algorithms.LinkedList list = new com.rsq8.data.structures.and.algorithms.LinkedList();
@@ -191,11 +194,11 @@ public class Main {
 		inOrder(node.right);
 	}
 
-	static void postOrder(TreeNode n){
-		if (n == null) return;
-		postOrder(n.left);
-		postOrder(n.right);
-		System.out.print(n.data + ", ");
+	static void postOrder(TreeNode tn){
+		if (tn == null) return;
+		postOrder(tn.left);
+		postOrder(tn.right);
+		System.out.print(tn.data + ", ");
 	}
 
 	static Node reverse(Node n){

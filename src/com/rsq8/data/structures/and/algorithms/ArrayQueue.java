@@ -1,7 +1,9 @@
 package com.rsq8.data.structures.and.algorithms;
 
-public class ArrayQueue {
-	int[] q;
+import java.util.ArrayList;
+
+public class ArrayQueue<E extends Object> {
+	Object[] q;
 	int front;
 	int rear;
 	int size;
@@ -10,7 +12,7 @@ public class ArrayQueue {
 		this.front = 0;
 		this.rear = 0;
 		this.size = size;
-		this.q = new int[size];
+		this.q = new Object[size];
 	}
 	
 	public int size() {
@@ -21,22 +23,30 @@ public class ArrayQueue {
 		return front == rear;
 	}
 	
-	public int front() {
-		if(isEmpty()) return 0;
+	public Object front() {
+		if(isEmpty()) return null;
 		return q[front];
 	}
 	
-	public void enqueue(int n) {
+	public void enqueue(E n) {
 		if (size() == q.length - 1) return;
 		q[rear] = n;
 		rear = (rear + 1) % q.length;
 	}
 	
-	public int dequeue() {
-		if (isEmpty()) return 0;
-		int temp = q[front];
-		q[front] = 0;
+	public Object dequeue() {
+		if (isEmpty()) return null;
+		Object temp = q[front];
+		q[front] = null;
 		front = (front + 1) % q.length;
 		return temp;
+	}
+
+	public Iterable<Object> items(){
+		ArrayList<Object> items = new ArrayList<>();
+		for (int i = 0; i < size(); i++){
+			items.add(q[i]);
+		}
+		return items;
 	}
 }

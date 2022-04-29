@@ -8,6 +8,37 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         return tn.n;
     }
 
+    private TreeNode deleteMin(TreeNode tn){
+        if (tn.left == null) return tn.right;
+        tn.left = deleteMin(tn.left);
+        tn.n = size(tn.left) + size(tn.right) - 1;
+        return tn;
+    }
+
+    private TreeNode deleteMax(TreeNode tn){
+        if (tn.right == null) return tn.left;
+        tn.right = deleteMax(tn.right);
+        tn.n = size(tn.left) + size(tn.right) - 1;
+        return tn;
+    }
+
+    private TreeNode delete(Key key, TreeNode tn){
+        if (tn == null) return null;
+        int cmp = key.compareTo((Key)tn.getKey());
+        if (cmp < 0) tn.left = delete(key, tn.left);
+        else if (cmp > 0) tn.right = delete(key, tn.right);
+        else {
+            if (tn.left == null) return tn.right;
+            if (tn.right == null) return tn.left;
+            TreeNode temp = tn;
+            tn = min(temp.right);
+            tn.right = deleteMin(temp.right);
+            tn.left = temp.left;
+        }
+        tn.n = size(tn.left) + size(tn.right) +1;
+        return tn;
+    }
+
     private TreeNode min(TreeNode tn){
         if (tn.left == null) return tn;
         return min(tn.left);
@@ -38,22 +69,31 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         else return tn;
     }
 
-    private int get(TreeNode n, Key key){
-        if (n == null) return 0;
-        int cmp = key.compareTo((Key) n.getKey());
-        if (cmp < 0) return get(n.left, key);
-        else if (cmp > 0) return get(n.right, key);
-        else return n.data;
+    private void keys(TreeNode tn, LinkedQueue q, Key lo, Key hi){
+        if (tn == null) return;
+        int complo = lo.compareTo((Key)tn.getKey());
+        int comphi = hi.compareTo((Key)tn.getKey());
+        if (complo < 0) keys(tn.left, q, lo, hi);
+        if (complo <= 0 && comphi >= 0) q.add((Key)tn.getKey());
+        if (comphi > 0) keys(tn.right, q, lo, hi);
     }
 
-    private TreeNode insert(TreeNode n, int data, Key key){
-        if (n == null) return new TreeNode(key, data, 1);
-        int cmp = key.compareTo((Key)n.getKey());
-        if (cmp < 0) n.left = insert(n.left, data, key);
-        else if (cmp > 0) n.right = insert(n.right, data, key);
-        else n.data = data;
-        n.n = size(n.left) + size(n.right) + 1;
-        return n;
+    private int get(TreeNode tn, Key key){
+        if (tn == null) return 0;
+        int cmp = key.compareTo((Key) tn.getKey());
+        if (cmp < 0) return get(tn.left, key);
+        else if (cmp > 0) return get(tn.right, key);
+        else return tn.data;
+    }
+
+    private TreeNode insert(TreeNode tn, int data, Key key){
+        if (tn == null) return new TreeNode(key, data, 1);
+        int cmp = key.compareTo((Key)tn.getKey());
+        if (cmp < 0) tn.left = insert(tn.left, data, key);
+        else if (cmp > 0) tn.right = insert(tn.right, data, key);
+        else tn.data = data;
+        tn.n = size(tn.left) + size(tn.right) + 1;
+        return tn;
     }
 
     private TreeNode select(TreeNode tn, int num){
@@ -74,6 +114,18 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
 
     public int size(){
         return size(root);
+    }
+
+    public void deleteMin(){
+        root = deleteMin(root);
+    }
+
+    public void deleteMax(){
+        root = deleteMax(root);
+    }
+
+    public void delete(Key key){
+        root = delete(key, root);
     }
 
     public int rank(Key key){
@@ -110,8 +162,18 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
     public int get(Key key){
         return get(root, key);
     }
-    /*public TreeNode getRoot() {
+    public TreeNode getRoot() {
         return root;
+    }
+
+    public Iterable<Key> keys(Key lo, Key hi){
+        LinkedQueue q = new LinkedQueue();
+        keys(root, q, lo, hi);
+        return q;
+    }
+
+    public Iterable<Key> keys(){
+        return keys(min(), max());
     }
 
 
