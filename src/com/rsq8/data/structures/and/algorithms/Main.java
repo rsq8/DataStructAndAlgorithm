@@ -1,4 +1,5 @@
 package com.rsq8.data.structures.and.algorithms;
+import java.security.Key;
 import java.util.*;
 
 public class Main {
@@ -17,22 +18,42 @@ public class Main {
 		Node ten = new Node(10);
 
 		LinkedList data = new LinkedList();
-		/*data.addNodeHead(one);
+		data.addNodeHead(one);
 		data.addNodeHead(five);
 		data.addNodeHead(seven);
 		data.insertHead(93);
 		data.insertHead(35);
-		data.insertHead(15);*/
-		data.addNodeTail(two);
+		data.insertHead(15);
+		/*data.addNodeTail(two);
 		data.addNodeTail(ten);
 		data.addNodeTail(eight);
 		data.insertTail(16);
 		data.insertTail(33);
-		data.insertTail(14);
+		data.insertTail(14);*/
 
-		for (Node n: data.nodes()){
+		/*for (Node n: data.nodes()){
 			System.out.print(n +", ");
 		}
+
+		System.out.println();
+		Node track = data.getHead();
+		Node other = data.getHead();
+
+		while(other.next.data != 7){
+			other = other.next;
+		}
+
+		while (track.next != other){
+			track = track.next;
+		}
+
+		track.next = other.next;
+		other.next = null;
+
+		for (Node x = data.getHead(); x != null; x = x.next){
+			System.out.print(x.data + ", ");
+		}*/
+
 
 		/*for (int i = 0; i < data.size(); i++){
 			System.out.print(data.getNode(i) + ", ");
@@ -55,24 +76,27 @@ public class Main {
 		prac.put(4, 4);
 		prac.put(1, 1);
 		prac.put(11, 11);
-		prac.put(8, 8);
+		prac.put(8, 8);*/
 
 		BinarySearchTree test = new BinarySearchTree();
-		test.insert(7, 7);
-		test.insert(4, 4);
 		test.insert(1, 1);
-		test.insert(11, 11);
+		test.insert(2, 2);
+		test.insert(3, 3);
+		test.insert(4, 4);
+		test.insert(5, 5);
 		test.insert(6, 6);
+		test.insert(7, 7);
 
 		TreeNode start = test.getRoot();
-		com.rsq8.data.structures.and.algorithms.LinkedList list = new com.rsq8.data.structures.and.algorithms.LinkedList();
-		inOrder(start, list);*/
-		/*for (int i = 0; i < list.size(); i++){
-			System.out.print(list.getNode(i).data + ", ");
+		//com.rsq8.data.structures.and.algorithms.LinkedList list = new com.rsq8.data.structures.and.algorithms.LinkedList();
+		//LinkedList list = new LinkedList();
+		postOrder(start);
+		/*for (int i = 0; i < list.size(); i++) {
+			System.out.print(list.getNode(i) + ", ");
 		}
-		System.out.println();
+		System.out.println();*/
 
-		LinkedList sol = new LinkedList();
+		/*LinkedList sol = new LinkedList();
 
 		for (int num: prac.values()){
 			sol.addNodeHead(new Node(num));
@@ -160,11 +184,18 @@ public class Main {
 		System.out.print(sp.distanceTo(4));*/
 	}
 
-	static void inOrder(TreeNode node, LinkedList list){
+	static void inOrder(TreeNode node){
 		if (node == null) return;
-		inOrder(node.left, list);
-		list.addNodeHead(new Node(node.data));
-		inOrder(node.right, list);
+		inOrder(node.left);
+		System.out.print(node.data + ", ");
+		inOrder(node.right);
+	}
+
+	static void postOrder(TreeNode n){
+		if (n == null) return;
+		postOrder(n.left);
+		postOrder(n.right);
+		System.out.print(n.data + ", ");
 	}
 
 	static Node reverse(Node n){
