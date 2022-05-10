@@ -1,28 +1,28 @@
 package com.rsq8.data.structures.and.algorithms;
 
 public class BinarySearchTree<Key extends Comparable<Key>> {
-    private TreeNode root;
+    private BSTreeNode root;
 
-    private int size(TreeNode tn){
+    private int size(BSTreeNode tn){
         if (tn == null) return 0;
         return tn.n;
     }
 
-    private TreeNode deleteMin(TreeNode tn){
+    private BSTreeNode deleteMin(BSTreeNode tn){
         if (tn.left == null) return tn.right;
         tn.left = deleteMin(tn.left);
         tn.n = size(tn.left) + size(tn.right) - 1;
         return tn;
     }
 
-    private TreeNode deleteMax(TreeNode tn){
+    private BSTreeNode deleteMax(BSTreeNode tn){
         if (tn.right == null) return tn.left;
         tn.right = deleteMax(tn.right);
         tn.n = size(tn.left) + size(tn.right) - 1;
         return tn;
     }
 
-    private TreeNode delete(Key key, TreeNode tn){
+    private BSTreeNode delete(Key key, BSTreeNode tn){
         if (tn == null) return null;
         int cmp = key.compareTo((Key)tn.getKey());
         if (cmp < 0) tn.left = delete(key, tn.left);
@@ -30,7 +30,7 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         else {
             if (tn.left == null) return tn.right;
             if (tn.right == null) return tn.left;
-            TreeNode temp = tn;
+            BSTreeNode temp = tn;
             tn = min(temp.right);
             tn.right = deleteMin(temp.right);
             tn.left = temp.left;
@@ -39,37 +39,37 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         return tn;
     }
 
-    private TreeNode min(TreeNode tn){
+    private BSTreeNode min(BSTreeNode tn){
         if (tn.left == null) return tn;
         return min(tn.left);
     }
 
-    private TreeNode max(TreeNode tn){
+    private BSTreeNode max(BSTreeNode tn){
         if (tn.right == null) return tn;
         return max(tn.right);
     }
 
-    private TreeNode floor(TreeNode tn, Key key){
+    private BSTreeNode floor(BSTreeNode tn, Key key){
         if (tn == null) return null;
         int cmp = key.compareTo((Key)tn.getKey());
         if (cmp == 0) return tn;
         if (cmp < 0) return floor(tn.left, key);
-        TreeNode temp = floor(tn.right, key);
+        BSTreeNode temp = floor(tn.right, key);
         if (temp != null) return temp;
         else return tn;
     }
 
-    private TreeNode ceiling(TreeNode tn, Key key){
+    private BSTreeNode ceiling(BSTreeNode tn, Key key){
         if (tn == null) return null;
         int cmp = key.compareTo((Key)tn.getKey());
         if (cmp == 0) return tn;
         if (cmp > 0) return ceiling(tn.right, key);
-        TreeNode temp = floor(tn.left, key);
+        BSTreeNode temp = floor(tn.left, key);
         if (temp != null) return temp;
         else return tn;
     }
 
-    private void keys(TreeNode tn, LinkedQueue q, Key lo, Key hi){
+    private void keys(BSTreeNode tn, LinkedQueue q, Key lo, Key hi){
         if (tn == null) return;
         int complo = lo.compareTo((Key)tn.getKey());
         int comphi = hi.compareTo((Key)tn.getKey());
@@ -78,7 +78,7 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         if (comphi > 0) keys(tn.right, q, lo, hi);
     }
 
-    private int get(TreeNode tn, Key key){
+    private int get(BSTreeNode tn, Key key){
         if (tn == null) return 0;
         int cmp = key.compareTo((Key) tn.getKey());
         if (cmp < 0) return get(tn.left, key);
@@ -86,8 +86,8 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         else return tn.data;
     }
 
-    private TreeNode insert(TreeNode tn, int data, Key key){
-        if (tn == null) return new TreeNode(key, data, 1);
+    private BSTreeNode insert(BSTreeNode tn, int data, Key key){
+        if (tn == null) return new BSTreeNode(key, data, 1);
         int cmp = key.compareTo((Key)tn.getKey());
         if (cmp < 0) tn.left = insert(tn.left, data, key);
         else if (cmp > 0) tn.right = insert(tn.right, data, key);
@@ -96,7 +96,7 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         return tn;
     }
 
-    private TreeNode select(TreeNode tn, int num){
+    private BSTreeNode select(BSTreeNode tn, int num){
         if (tn == null)return null;
         int temp = size(tn.left);
         if (temp > num) return select(tn.left, num);
@@ -104,7 +104,7 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
         else return tn;
     }
 
-    private int rank(TreeNode tn, Key key){
+    private int rank(BSTreeNode tn, Key key){
         if (tn == null) return 0;
         int cmp = key.compareTo((Key)tn.getKey());
         if (cmp < 0) return rank(tn.left, key);
@@ -145,13 +145,13 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
     }
 
     public Key floor(Key key){
-        TreeNode temp = floor(root, key);
+        BSTreeNode temp = floor(root, key);
         if (temp == null) return null;
         return (Key)temp.getKey();
     }
 
     public Key ceiling(Key key){
-        TreeNode temp = ceiling(root, key);
+        BSTreeNode temp = ceiling(root, key);
         if (temp == null) return null;
         return (Key)temp.getKey();
     }
@@ -162,7 +162,7 @@ public class BinarySearchTree<Key extends Comparable<Key>> {
     public int get(Key key){
         return get(root, key);
     }
-    public TreeNode getRoot() {
+    public BSTreeNode getRoot() {
         return root;
     }
 
