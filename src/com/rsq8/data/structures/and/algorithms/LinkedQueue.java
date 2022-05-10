@@ -69,7 +69,7 @@ public class LinkedQueue implements Queue {
 
 	@Override
 	public boolean add(Object o) {
-		Node temp  = new Node((int)o);
+		Node temp  = new Node(o);
 		if (isEmpty()) {
 			rear = temp;
 			front = temp;
@@ -118,7 +118,8 @@ public class LinkedQueue implements Queue {
 
 	@Override
 	public Object remove() {
-		int temp = (int)front.data;
+		if (front == null) return null;
+		Object temp = front.data;
 		front = front.next;
 		length --;
 		return temp;
