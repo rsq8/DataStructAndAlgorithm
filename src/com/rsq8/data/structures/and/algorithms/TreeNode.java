@@ -4,8 +4,8 @@ public class TreeNode<Key extends Comparable<Key>> {
     private Key key;
     public int data;
     public int n;
-    public TreeNode left;
-    public TreeNode right;
+    public TreeNode<Key> left;
+    public TreeNode<Key> right;
 
     public TreeNode(Key key, int data, int n){
         this.data = data;
